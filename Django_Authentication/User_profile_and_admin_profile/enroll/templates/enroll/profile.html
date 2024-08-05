@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+
+	{% if users != None %}
+		{% for user in users %}
+			<p><a href="{% url 'userdetail' user.id %}">{{user}}</a></p>
+		{% endfor %}
+	{% endif %}
+
+	{% if messages %}
+		{% for message in messages %}
+			<span {% if message.tag %} class="{{message.tag}}"{% endif %}>{{message}}</span>
+		{% endfor %}
+	{% endif %}
+
+	<h1>Welcome {{name}}</h1>
+
+	<form action="" method='POST' novalidate>
+		{% csrf_token %}
+
+		{% if form.non_field_errors %}
+			{% for error in form.non_field_errors %}
+		 		{{error}}
+			{% endfor %}
+		{% endif %}
+
+		{% for fm in form %}
+			<div>{{fm.label_tag}} {{fm}} {{fm.error|striptags}}</div><br>
+		{% endfor %}
+		<input type="submit">
+	</form>
+
+	<a href="{% url 'logout' %}">Logout</a>
+
+	<a href="{% url 'changepass' %}">change password</a>
+</body>
+</html>
